@@ -22,7 +22,9 @@ const grid = new Isotope("section", {
 
 const Content = ({ hits }: ContentProps) => {
   const [grid, setGrid] = useState<Isotope>();
-
+  const [selectedFilter, setSelectedFilter] = useState<"*" | ".odd" | ".even">(
+    "*"
+  );
   useEffect(() => {
     window.addEventListener("load", () => {
       const grid = new Isotope("section", {
@@ -42,18 +44,26 @@ const Content = ({ hits }: ContentProps) => {
 
     const filter = event.target.getAttribute("href");
 
+    setSelectedFilter(filter);
+
     grid?.arrange({ filter });
   };
   return (
     <main>
       <ul>
-        <li className="on" onClick={onClick}>
+        <li className={selectedFilter === "*" ? "on" : "off"} onClick={onClick}>
           <a href="*">ALL</a>
         </li>
-        <li onClick={onClick}>
+        <li
+          className={selectedFilter === ".odd" ? "on" : "off"}
+          onClick={onClick}
+        >
           <a href=".odd">ODD</a>
         </li>
-        <li onClick={onClick}>
+        <li
+          className={selectedFilter === ".even" ? "on" : "off"}
+          onClick={onClick}
+        >
           <a href=".even">EVENT</a>
         </li>
       </ul>{" "}
