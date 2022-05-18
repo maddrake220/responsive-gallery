@@ -1,3 +1,5 @@
+@import "../../style.scss";
+
 header {
   width: 400px;
   height: 100%;
@@ -54,6 +56,47 @@ header {
           transform: scale(0.7);
           transform-origin: left center;
         }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $web) {
+  header {
+    width: 100%;
+    height: 80px;
+    position: relative;
+
+    h1 {
+      font: bold 24px/1 "orbitron";
+      transform: translateY(-50%);
+      left: 50px;
+
+      &::before,
+      &::after {
+        display: none;
+      }
+    }
+
+    ul {
+      left: auto;
+      right: 50px;
+      bottom: 25px;
+    }
+  }
+}
+
+@media screen and (max-width: $mobile) {
+  header {
+    h1 {
+      font-size: 20px;
+    }
+
+    ul li {
+      margin-left: 3px;
+
+      a span {
+        display: none;
       }
     }
   }
