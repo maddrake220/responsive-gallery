@@ -16,6 +16,13 @@ const Content = () => {
           <a href="#">EVENT</a>
         </li>
       </ul>{" "}
+      <section>
+        <article>
+          <div className="inner">
+            <img src="" alt="" />
+          </div>
+        </article>
+      </section>
     </main>
   );
 };
