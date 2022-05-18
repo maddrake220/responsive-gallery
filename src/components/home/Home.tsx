@@ -13,8 +13,12 @@ import {
 import Content from "../content/Content";
 import Header from "../header/Header";
 
+type TPixabay = {
+  hits: [];
+};
+
 const Home = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<TPixabay>();
 
   useEffect(() => {
     fetchPixabay(
@@ -26,7 +30,7 @@ const Home = () => {
   return (
     <div>
       <Header />
-      <Content />
+      <Content hits={data?.hits} />
     </div>
   );
 };

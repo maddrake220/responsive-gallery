@@ -1,6 +1,29 @@
-import React from "react";
+import Isotope from "isotope-layout";
+import { useEffect } from "react";
 import "./content.scss";
-const Content = () => {
+type THits = {
+  id: number;
+  webformatURL: string;
+  tags: string;
+  user: string;
+};
+
+type ContentProps = {
+  hits: THits[] | undefined;
+};
+
+const Content = ({ hits }: ContentProps) => {
+  useEffect(() => {
+    window.addEventListener("load", () => {
+      new Isotope("section", {
+        itemSelector: "article",
+        masonry: {
+          columnWidth: "article",
+        },
+        transitionDuration: "0.5s",
+      });
+    });
+  }, []);
   return (
     <main>
       <ul>
@@ -17,11 +40,17 @@ const Content = () => {
         </li>
       </ul>{" "}
       <section>
-        <article>
-          <div className="inner">
-            <img src="" alt="" />
-          </div>
-        </article>
+        {hits?.map((hit) => {
+          return (
+            <article key={hit.id}>
+              <div className="inner">
+                <img src={hit.webformatURL} alt={hit.webformatURL} />
+                <h2>{hit.user}</h2>
+                <p>{hit.tags}</p>
+              </div>
+            </article>
+          );
+        })}
       </section>
     </main>
   );
