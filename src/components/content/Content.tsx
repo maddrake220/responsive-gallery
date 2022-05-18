@@ -1,5 +1,5 @@
 import Isotope from "isotope-layout";
-import { useEffect } from "react";
+import React, { MouseEventHandler, useEffect, useMemo, useState } from "react";
 import "./content.scss";
 type THits = {
   id: number;
@@ -12,37 +12,55 @@ type ContentProps = {
   hits: THits[] | undefined;
 };
 
+const grid = new Isotope("section", {
+  itemSelector: "article",
+  masonry: {
+    columnWidth: "article",
+  },
+  transitionDuration: "0.5s",
+});
+
 const Content = ({ hits }: ContentProps) => {
+  const [grid, setGrid] = useState<Isotope>();
+
   useEffect(() => {
     window.addEventListener("load", () => {
-      new Isotope("section", {
+      const grid = new Isotope("section", {
         itemSelector: "article",
         masonry: {
           columnWidth: "article",
         },
         transitionDuration: "0.5s",
       });
+
+      setGrid(grid);
     });
   }, []);
+
+  const onClick = (event: any) => {
+    event.preventDefault();
+
+    const filter = event.target.getAttribute("href");
+
+    grid?.arrange({ filter });
+  };
   return (
     <main>
       <ul>
-        <li>
-          <a href="#" className="on">
-            ALL
-          </a>
+        <li className="on" onClick={onClick}>
+          <a href="*">ALL</a>
         </li>
-        <li>
-          <a href="#">ODD</a>
+        <li onClick={onClick}>
+          <a href=".odd">ODD</a>
         </li>
-        <li>
-          <a href="#">EVENT</a>
+        <li onClick={onClick}>
+          <a href=".even">EVENT</a>
         </li>
       </ul>{" "}
       <section>
-        {hits?.map((hit) => {
+        {hits?.map((hit, index) => {
           return (
-            <article key={hit.id}>
+            <article className={index % 2 === 0 ? "even" : "odd"} key={hit.id}>
               <div className="inner">
                 <img src={hit.webformatURL} alt={hit.webformatURL} />
                 <h2>{hit.user}</h2>
